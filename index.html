@@ -70,13 +70,22 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
 .note-row{border-top:1px solid var(--g6);padding:6px 12px 6px 48px;}
 .note-inp{width:100%;font-family:'Noto Sans TC',sans-serif;font-size:11px;color:var(--g3);border:none;outline:none;background:transparent;resize:none;line-height:1.5;}
 .note-inp::placeholder{color:#ccc;}
-.report-box{background:var(--black);border-radius:13px;padding:1.1rem;margin-top:1.5rem;}
-.report-hd{font-size:13px;font-weight:700;color:var(--y);margin-bottom:.85rem;}
-.report-txt{background:#1c1c1c;border-radius:8px;padding:.9rem;font-family:'DM Mono',monospace;font-size:11px;color:#ddd;line-height:1.8;white-space:pre-wrap;word-break:break-all;margin-bottom:.9rem;min-height:100px;}
-.copy-btn{width:100%;padding:12px;background:var(--y);color:var(--black);border:none;border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s,transform .1s;letter-spacing:.02em;}
-.copy-btn:hover{background:#e6b800;}
-.copy-btn:active{transform:scale(.98);}
-.copy-btn.copied{background:var(--green);color:white;}
+.member-select-card{background:var(--white);border:1px solid var(--g6);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem;}
+.member-label{font-size:12px;font-weight:500;color:var(--g3);margin-bottom:.5rem;}
+.member-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.mbtn{padding:6px 16px;border:1.5px solid var(--g6);border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--g3);font-family:'Noto Sans TC',sans-serif;transition:all .15s;}
+.mbtn.active{background:var(--y);border-color:var(--yd);color:var(--black);}
+.submit-box{background:var(--black);border-radius:13px;padding:1.1rem;margin-top:1.5rem;}
+.submit-hd{font-size:13px;font-weight:700;color:var(--y);margin-bottom:.85rem;}
+.submit-status{font-size:12px;color:var(--g4);margin-bottom:.85rem;font-family:'DM Mono',monospace;}
+.submit-btn{width:100%;padding:12px;background:var(--y);color:var(--black);border:none;border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s,transform .1s;letter-spacing:.02em;}
+.submit-btn:hover{background:#e6b800;}
+.submit-btn:active{transform:scale(.98);}
+.submit-btn.ok{background:var(--green);color:white;}
+.submit-btn.err{background:var(--red);color:white;}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;}
+.copy-link{display:block;text-align:center;font-size:12px;color:var(--g4);margin-top:.6rem;cursor:pointer;background:none;border:none;font-family:'Noto Sans TC',sans-serif;width:100%;padding:6px;}
+.copy-link:hover{color:var(--y);}
 .reset-btn{display:block;width:100%;text-align:center;font-size:12px;color:var(--g5);background:none;border:none;cursor:pointer;margin-top:.85rem;padding:8px;font-family:'Noto Sans TC',sans-serif;}
 .reset-btn:hover{color:var(--red);}
 .month-hero{background:var(--black);border-radius:13px;padding:1.1rem 1.25rem;margin-bottom:1rem;color:var(--white);}
@@ -85,6 +94,13 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
 .month-kpi{background:var(--g2);border-radius:8px;padding:10px 12px;}
 .kpi-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--y);line-height:1;}
 .kpi-lbl{font-size:10px;color:var(--g4);margin-top:3px;}
+.team-card{background:var(--white);border:1px solid var(--g6);border-radius:11px;padding:.9rem 1rem;margin-bottom:8px;}
+.team-name{font-size:13px;font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:8px;}
+.team-badge{font-size:10px;padding:1px 8px;border-radius:3px;font-weight:400;}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.team-stat{background:var(--bg);border-radius:6px;padding:6px 8px;text-align:center;}
+.ts-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:var(--black);}
+.ts-lbl{font-size:9px;color:var(--g4);margin-top:1px;}
 .target-card{background:var(--white);border:1px solid var(--g6);border-radius:11px;padding:1rem 1.1rem;margin-bottom:8px;}
 .tc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;}
 .tc-name{font-size:13px;font-weight:500;}
@@ -98,15 +114,12 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
 .fill-b{background:var(--blue);}
 .tc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
 .tc-label{font-size:11px;color:var(--g3);}
-.tc-input-wrap{display:flex;align-items:center;gap:6px;}
-.tc-sep{font-size:11px;color:var(--g5);}
-.tc-goal{font-family:'DM Mono',monospace;font-size:12px;color:var(--g4);}
-.num-input{width:56px;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;border:1px solid var(--g6);border-radius:5px;padding:3px 6px;text-align:center;background:var(--bg);color:var(--black);outline:none;}
-.num-input:focus{border-color:var(--yd);background:var(--yl);}
+.tc-nums{font-family:'DM Mono',monospace;font-size:12px;color:var(--g3);}
 .tc-pct{font-size:10px;color:var(--g4);}
-.save-btn{width:100%;padding:11px;background:var(--y);color:var(--black);border:none;border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:1rem;transition:background .15s;}
-.save-btn:hover{background:#e6b800;}
-.save-btn.saved{background:var(--green);color:white;}
+.refresh-btn{width:100%;padding:10px;background:var(--g2);color:var(--g5);border:none;border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:13px;cursor:pointer;margin-top:1rem;transition:background .15s;}
+.refresh-btn:hover{background:var(--g3);color:var(--white);}
+.config-note{background:var(--yl);border-radius:10px;padding:.9rem 1rem;margin-bottom:1rem;font-size:12px;color:var(--yd);line-height:1.6;}
+.config-note strong{color:var(--black);}
 </style>
 </head>
 <body>
@@ -121,15 +134,25 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
 
 <!-- PAGE: 每日 -->
 <div class="page active" id="page-daily">
+  <div class="member-select-card">
+    <div class="member-label">你是哪位夥伴？</div>
+    <div class="member-btns">
+      <button class="mbtn" onclick="selectMember('Paul')">Paul</button>
+      <button class="mbtn" onclick="selectMember('Lumie')">Lumie</button>
+      <button class="mbtn" onclick="selectMember('海翔')">海翔</button>
+    </div>
+  </div>
+
   <div class="stat-strip">
     <div class="stat-box"><div class="stat-num">24</div><div class="stat-lbl">目前週人次</div><div class="stat-pill pill-now">現況</div></div>
     <div class="stat-box"><div class="stat-num">34</div><div class="stat-lbl">損平週人次</div><div class="stat-pill pill-need">需達成</div></div>
     <div class="stat-box"><div class="stat-num">2位</div><div class="stat-lbl">本週體驗客目標</div><div class="stat-pill pill-goal">每週</div></div>
   </div>
+
   <div class="prog">
     <div class="prog-top"><div class="prog-title">今日完成度</div><div class="prog-nums"><span id="done-n">0</span> / <span id="total-n">6</span> 項</div></div>
     <div class="prog-track"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
-    <div class="prog-sub" id="prog-sub">開始打勾完成今日任務</div>
+    <div class="prog-sub" id="prog-sub">請先選擇你的名字，再開始打勾</div>
   </div>
 
   <div class="sec-label">每日必做</div>
@@ -230,111 +253,68 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     <div class="note-row"><textarea class="note-inp" id="note-referral" placeholder="備註（跟進了誰？有沒有朋友要來？）" rows="1" oninput="autoResize(this)"></textarea></div>
   </div>
 
-  <div class="report-box">
-    <div class="report-hd">一鍵產生回報訊息</div>
-    <div class="report-txt" id="report-txt">點下方按鈕產生今日進度報告...</div>
-    <button class="copy-btn" id="copy-btn" onclick="generateAndCopy()">產生報告並複製 →</button>
+  <div class="submit-box">
+    <div class="submit-hd">送出今日進度</div>
+    <div class="submit-status" id="submit-status">尚未送出</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitToSheets()">送出到 Google Sheets →</button>
+    <button class="copy-link" onclick="copyReport()">或：複製文字報告貼到 LINE</button>
   </div>
   <button class="reset-btn" onclick="resetDaily()">重置今日記錄</button>
 </div>
 
-<!-- PAGE: 月目標 -->
+<!-- PAGE: 月報表 -->
 <div class="page" id="page-month">
+  <div class="config-note" id="config-note" style="display:none">
+    <strong>尚未連接 Google Sheets</strong><br>
+    請將 Apps Script 部署後，把網址填入設定中，月報表才能顯示即時數據。
+  </div>
+
   <div class="month-hero">
-    <div class="month-hero-title" id="month-title-label">本月業績目標</div>
+    <div class="month-hero-title" id="month-title-label">本月全隊總覽</div>
     <div class="month-grid">
-      <div class="month-kpi"><div class="kpi-val" id="m-income-pct">0%</div><div class="kpi-lbl">收入目標達成率</div></div>
-      <div class="month-kpi"><div class="kpi-val" id="m-task-pct">0%</div><div class="kpi-lbl">行銷任務完成率</div></div>
-      <div class="month-kpi"><div class="kpi-val" id="m-trial-cur">0</div><div class="kpi-lbl">本月體驗客 / 目標 8 位</div></div>
-      <div class="month-kpi"><div class="kpi-val" id="m-member-cur">0</div><div class="kpi-lbl">本月新成交學員</div></div>
+      <div class="month-kpi"><div class="kpi-val" id="m-trial">0</div><div class="kpi-lbl">全隊體驗客（本月）</div></div>
+      <div class="month-kpi"><div class="kpi-val" id="m-flyer">0</div><div class="kpi-lbl">全隊發券份數</div></div>
+      <div class="month-kpi"><div class="kpi-val" id="m-ig">0</div><div class="kpi-lbl">全隊IG發文</div></div>
+      <div class="month-kpi"><div class="kpi-val" id="m-days">0</div><div class="kpi-lbl">全隊總回報天數</div></div>
     </div>
   </div>
 
-  <div class="sec-label">業績數字</div>
-
-  <div class="target-card">
-    <div class="tc-header"><div class="tc-name">課程收入</div><div class="tc-badge badge-biz">業績</div></div>
-    <div class="tc-progress"><div class="tc-fill fill-y" id="bar-income" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">本月實際收入（元）</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-income" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">$53,720</div></div>
-    </div>
-    <div class="tc-pct" id="pct-income">損益平衡目標：$53,720</div>
+  <div class="sec-label">各夥伴本月數字</div>
+  <div id="team-cards">
+    <div style="text-align:center;padding:2rem;color:var(--g5);font-size:13px;">點下方「更新數據」載入最新資料</div>
   </div>
 
-  <div class="target-card">
-    <div class="tc-header"><div class="tc-name">週人次</div><div class="tc-badge badge-biz">業績</div></div>
-    <div class="tc-progress"><div class="tc-fill fill-y" id="bar-headcount" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">本週實際人次</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-headcount" value="24" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">34 人次</div></div>
-    </div>
-    <div class="tc-pct" id="pct-headcount">損平需達到 34 人次／週</div>
-  </div>
+  <div class="sec-label">本月業績目標</div>
 
   <div class="target-card">
     <div class="tc-header"><div class="tc-name">新體驗客</div><div class="tc-badge badge-biz">業績</div></div>
     <div class="tc-progress"><div class="tc-fill fill-g" id="bar-trial" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">本月體驗客到場</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-trial" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">8 位</div></div>
-    </div>
+    <div class="tc-row"><div class="tc-label">全隊本月體驗客</div><div class="tc-nums" id="num-trial">0 / 8 位</div></div>
     <div class="tc-pct" id="pct-trial">每週 2 位，轉換率 90%</div>
   </div>
 
   <div class="target-card">
-    <div class="tc-header"><div class="tc-name">新成交學員</div><div class="tc-badge badge-biz">業績</div></div>
-    <div class="tc-progress"><div class="tc-fill fill-g" id="bar-member" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">本月新購課學員</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-member" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">7 位</div></div>
-    </div>
-    <div class="tc-pct" id="pct-member">8 位體驗 × 90% 轉換率</div>
-  </div>
-
-  <div class="sec-label">行銷任務完成率</div>
-
-  <div class="target-card">
     <div class="tc-header"><div class="tc-name">IG/FB 發文</div><div class="tc-badge badge-mkt">行銷</div></div>
     <div class="tc-progress"><div class="tc-fill fill-b" id="bar-ig" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">本月已發貼文數</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-ig" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">12 篇</div></div>
-    </div>
-    <div class="tc-pct" id="pct-ig">每週 3 篇 × 4 週</div>
+    <div class="tc-row"><div class="tc-label">全隊本月發文數</div><div class="tc-nums" id="num-ig">0 / 12 篇</div></div>
+    <div class="tc-pct" id="pct-ig">每人每週 3 篇（Paul 為主）</div>
   </div>
 
   <div class="target-card">
     <div class="tc-header"><div class="tc-name">路上發體驗券</div><div class="tc-badge badge-mkt">行銷</div></div>
     <div class="tc-progress"><div class="tc-fill fill-b" id="bar-flyer" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">本月已發份數</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-flyer-m" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">120 份</div></div>
-    </div>
-    <div class="tc-pct" id="pct-flyer">每週 30 份 × 4 週，約帶進 8 位體驗</div>
-  </div>
-
-  <div class="target-card">
-    <div class="tc-header"><div class="tc-name">Google 評論累計</div><div class="tc-badge badge-mkt">行銷</div></div>
-    <div class="tc-progress"><div class="tc-fill fill-b" id="bar-review" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">目前評論則數</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-review" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">20 則</div></div>
-    </div>
-    <div class="tc-pct" id="pct-review">目標先達到 20 則，維持 4.7 星</div>
+    <div class="tc-row"><div class="tc-label">全隊本月發券數</div><div class="tc-nums" id="num-flyer">0 / 120 份</div></div>
+    <div class="tc-pct" id="pct-flyer">每週 30 份，15 份約帶 1 位體驗</div>
   </div>
 
   <div class="target-card">
     <div class="tc-header"><div class="tc-name">老帶新跟進</div><div class="tc-badge badge-mkt">行銷</div></div>
     <div class="tc-progress"><div class="tc-fill fill-b" id="bar-ref" style="width:0%"></div></div>
-    <div class="tc-row">
-      <div class="tc-label">本月跟進次數</div>
-      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-ref" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">8 次</div></div>
-    </div>
-    <div class="tc-pct" id="pct-ref">每週 2 位學員 × 4 週</div>
+    <div class="tc-row"><div class="tc-label">全隊本月跟進次數</div><div class="tc-nums" id="num-ref">0 / 8 次</div></div>
+    <div class="tc-pct" id="pct-ref">每週每人跟進 1 位</div>
   </div>
 
-  <button class="save-btn" id="save-btn" onclick="saveMonthConfirm()">儲存本月進度</button>
+  <button class="refresh-btn" onclick="loadMonthData()">更新數據</button>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -343,38 +323,42 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     <svg viewBox="0 0 18 18"><rect x="2" y="2" width="14" height="14" rx="2"/><line x1="6" y1="6" x2="12" y2="6"/><line x1="6" y1="9" x2="12" y2="9"/><line x1="6" y1="12" x2="10" y2="12"/></svg>
     <span>每日清單</span>
   </button>
-  <button class="bot-tab" id="tab-month" onclick="switchTab('month')">
+  <button class="bot-tab" id="tab-month" onclick="switchTab('month');loadMonthData();">
     <svg viewBox="0 0 18 18"><rect x="2" y="3" width="14" height="12" rx="2"/><line x1="6" y1="1" x2="6" y2="5"/><line x1="12" y1="1" x2="12" y2="5"/><line x1="2" y1="7" x2="16" y2="7"/></svg>
-    <span>月目標</span>
+    <span>月報表</span>
   </button>
 </nav>
 
 <script>
+// ══ 設定區：部署 Apps Script 後填入網址 ══
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH0ROII47uNZRyfHYPc5Z_AdqmVofk3tfYUeNi0yt5uua6SkSo0HrPvCXqlsViOSaC/exec';
+// ═══════════════════════════════════════
+
 const TASKS=['ig_story','invite','google_review','flyer','trial','referral'];
 const TASK_NAMES={ig_story:'IG/FB 限時動態',invite:'主動邀約',google_review:'Google 評論請求',flyer:'路上發體驗券',trial:'新體驗客到場',referral:'老帶新跟進'};
 const TASK_TARGETS={ig_story:1,invite:1,google_review:1,flyer:3,trial:0,referral:0};
 const TODAY=new Date().toISOString().slice(0,10);
-const MONTH_KEY='ef_month_'+new Date().toISOString().slice(0,7);
 const DAILY_KEY='ef_daily_'+TODAY;
-let daily={checked:{},qty:{},notes:{}};
-let month={income:0,headcount:24,trial:0,member:0,ig:0,flyer:0,review:0,ref:0};
 
-function loadAll(){
+let daily={checked:{},qty:{},notes:{}};
+let currentMember='';
+
+function loadDaily(){
   try{const s=localStorage.getItem(DAILY_KEY);if(s)daily=JSON.parse(s);}catch{}
-  try{const s=localStorage.getItem(MONTH_KEY);if(s)month=Object.assign(month,JSON.parse(s));}catch{}
+  const saved=localStorage.getItem('ef_member');
+  if(saved) selectMember(saved,false);
 }
 function saveDaily(){try{localStorage.setItem(DAILY_KEY,JSON.stringify(daily));}catch{}}
-function saveMonth(){
-  month.income=+document.getElementById('cur-income').value||0;
-  month.headcount=+document.getElementById('cur-headcount').value||0;
-  month.trial=+document.getElementById('cur-trial').value||0;
-  month.member=+document.getElementById('cur-member').value||0;
-  month.ig=+document.getElementById('cur-ig').value||0;
-  month.flyer=+document.getElementById('cur-flyer-m').value||0;
-  month.review=+document.getElementById('cur-review').value||0;
-  month.ref=+document.getElementById('cur-ref').value||0;
-  try{localStorage.setItem(MONTH_KEY,JSON.stringify(month));}catch{}
+
+function selectMember(name, save=true){
+  currentMember=name;
+  if(save) localStorage.setItem('ef_member',name);
+  document.querySelectorAll('.mbtn').forEach(b=>{
+    b.classList.toggle('active', b.textContent===name);
+  });
+  renderDaily();
 }
+
 function switchTab(tab){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.bot-tab').forEach(t=>t.classList.remove('active'));
@@ -382,6 +366,7 @@ function switchTab(tab){
   document.getElementById('tab-'+tab).classList.add('active');
   window.scrollTo(0,0);
 }
+
 function toggleCheck(id){daily.checked[id]=!daily.checked[id];saveDaily();renderDaily();}
 function changeQty(id,delta){
   daily.qty[id]=Math.max(0,(daily.qty[id]||0)+delta);
@@ -392,6 +377,7 @@ function autoResize(el){
   el.style.height='auto';el.style.height=el.scrollHeight+'px';
   const id=el.id.replace('note-','');daily.notes[id]=el.value;saveDaily();
 }
+
 function renderDaily(){
   const now=new Date();
   const days=['日','一','二','三','四','五','六'];
@@ -408,61 +394,52 @@ function renderDaily(){
   document.getElementById('done-n').textContent=done;
   document.getElementById('total-n').textContent=TASKS.length;
   document.getElementById('prog-bar').style.width=pct+'%';
-  document.getElementById('prog-sub').textContent=pct===100?'完美！今日任務全部完成':pct>=50?'過半了，繼續加油！':'加油，一步一步完成';
+  document.getElementById('prog-sub').textContent=
+    !currentMember?'請先選擇你的名字，再開始打勾':
+    pct===100?'完美！今日任務全部完成':pct>=50?'過半了，繼續加油！':'加油，一步一步完成';
 }
-function pBar(id,cur,goal){
-  const p=goal?Math.min(100,Math.round(cur/goal*100)):0;
-  document.getElementById('bar-'+id).style.width=p+'%';return p;
+
+async function submitToSheets(){
+  if(!currentMember){alert('請先選擇你的名字！');return;}
+  if(SCRIPT_URL==='YOUR_APPS_SCRIPT_URL'){
+    alert('尚未設定 Apps Script 網址，請先完成設定。\n\n目前可以用「複製文字報告」的方式回報。');
+    return;
+  }
+  const btn=document.getElementById('submit-btn');
+  btn.textContent='送出中...';btn.disabled=true;
+  const payload={
+    member:currentMember, date:TODAY,
+    ig_story:daily.qty['ig_story']||0,
+    invite:daily.qty['invite']||0,
+    google_review:daily.qty['google_review']||0,
+    flyer:daily.qty['flyer']||0,
+    trial:daily.qty['trial']||0,
+    referral:!!daily.checked['referral'],
+    notes:TASKS.map(id=>daily.notes[id]?TASK_NAMES[id]+'：'+daily.notes[id]:'').filter(Boolean).join('；')
+  };
+  try{
+    await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)});
+    btn.textContent='已送出 ✓';btn.classList.add('ok');
+    document.getElementById('submit-status').textContent='最後送出：'+new Date().toLocaleTimeString('zh-TW');
+    setTimeout(()=>{btn.textContent='送出到 Google Sheets →';btn.classList.remove('ok');btn.disabled=false;},3000);
+  }catch(e){
+    btn.textContent='送出失敗，請重試';btn.classList.add('err');
+    setTimeout(()=>{btn.textContent='送出到 Google Sheets →';btn.classList.remove('err');btn.disabled=false;},3000);
+  }
 }
-function renderMonth(){
-  const now=new Date();
-  document.getElementById('month-title-label').textContent=now.getFullYear()+'年 '+String(now.getMonth()+1).padStart(2,'0')+'月 業績目標';
-  const income=+document.getElementById('cur-income').value||0;
-  const headcount=+document.getElementById('cur-headcount').value||0;
-  const trial=+document.getElementById('cur-trial').value||0;
-  const member=+document.getElementById('cur-member').value||0;
-  const ig=+document.getElementById('cur-ig').value||0;
-  const flyer=+document.getElementById('cur-flyer-m').value||0;
-  const review=+document.getElementById('cur-review').value||0;
-  const ref=+document.getElementById('cur-ref').value||0;
-  const ip=pBar('income',income,53720);
-  const hp=pBar('headcount',headcount,34);
-  const tp=pBar('trial',trial,8);
-  const mp=pBar('member',member,7);
-  const igp=pBar('ig',ig,12);
-  const fp=pBar('flyer',flyer,120);
-  const rp=pBar('review',review,20);
-  const rfp=pBar('ref',ref,8);
-  document.getElementById('pct-income').textContent='達成率 '+ip+'%，損益平衡目標 $53,720';
-  document.getElementById('pct-headcount').textContent='達成率 '+hp+'%，損平需達到 34 人次／週';
-  document.getElementById('pct-trial').textContent='達成率 '+tp+'%，每週 2 位，轉換率 90%';
-  document.getElementById('pct-member').textContent='達成率 '+mp+'%，8 位體驗 × 90% 轉換率';
-  document.getElementById('pct-ig').textContent='達成率 '+igp+'%，每週 3 篇 × 4 週';
-  document.getElementById('pct-flyer').textContent='達成率 '+fp+'%，每週 30 份 × 4 週';
-  document.getElementById('pct-review').textContent='達成率 '+rp+'%，目標先達到 20 則';
-  document.getElementById('pct-ref').textContent='達成率 '+rfp+'%，每週 2 位學員 × 4 週';
-  document.getElementById('m-income-pct').textContent=ip+'%';
-  document.getElementById('m-task-pct').textContent=Math.round((igp+fp+rp+rfp)/4)+'%';
-  document.getElementById('m-trial-cur').textContent=trial;
-  document.getElementById('m-member-cur').textContent=member;
-}
-function saveMonthConfirm(){
-  saveMonth();
-  const btn=document.getElementById('save-btn');
-  btn.textContent='已儲存 ✓';btn.classList.add('saved');
-  setTimeout(()=>{btn.textContent='儲存本月進度';btn.classList.remove('saved');},2000);
-}
-function generateAndCopy(){
+
+function copyReport(){
+  if(!currentMember){alert('請先選擇你的名字！');return;}
   const now=new Date();
   const days=['日','一','二','三','四','五','六'];
   const ds=now.getFullYear()+'/'+String(now.getMonth()+1).padStart(2,'0')+'/'+String(now.getDate()).padStart(2,'0')+' (週'+days[now.getDay()]+')';
   let done=0;TASKS.forEach(id=>{if(daily.checked[id])done++;});
   const pct=Math.round(done/TASKS.length*100);
-  const lines=['📋 Easyfit 每日工作進度回報','日期：'+ds,'完成度：'+done+'/'+TASKS.length+' 項（'+pct+'%）','','━━━ 今日數字 ━━━',
+  const lines=['📋 Easyfit 每日工作進度回報','夥伴：'+currentMember,'日期：'+ds,'完成度：'+done+'/'+TASKS.length+' 項（'+pct+'%）','','━━━ 今日數字 ━━━',
     'IG/FB 貼文：'+(daily.qty['ig_story']||0)+' 則'+(daily.checked['ig_story']?' ✅':' ⬜'),
     '主動邀約：'+(daily.qty['invite']||0)+' 次'+(daily.checked['invite']?' ✅':' ⬜'),
     'Google 評論請求：'+(daily.qty['google_review']||0)+' 人'+(daily.checked['google_review']?' ✅':' ⬜'),
-    '路上發體驗券：'+(daily.qty['flyer']||0)+' 份（目標 3 份）'+(daily.checked['flyer']?' ✅':' ⬜'),
+    '路上發體驗券：'+(daily.qty['flyer']||0)+' 份'+(daily.checked['flyer']?' ✅':' ⬜'),
     '新體驗客到場：'+(daily.qty['trial']||0)+' 位'+(daily.checked['trial']?' ✅':' ⬜'),
     '老帶新跟進：'+(daily.checked['referral']?'完成 ✅':'未完成 ⬜'),''];
   const hasN=TASKS.some(id=>daily.notes[id]&&daily.notes[id].trim());
@@ -470,35 +447,82 @@ function generateAndCopy(){
   lines.push('──────────────');
   const t=daily.qty['trial']||0;
   lines.push(t>0?'今日新客 '+t+' 位，本週持續衝！':done===TASKS.length?'今日任務全部完成！':'明天繼續加油！');
-  const report=lines.join('\n');
-  document.getElementById('report-txt').textContent=report;
-  navigator.clipboard.writeText(report).then(()=>{
-    const btn=document.getElementById('copy-btn');
-    btn.textContent='已複製！貼到 LINE 傳給 Paul ✓';btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='產生報告並複製 →';btn.classList.remove('copied');},3000);
-  }).catch(()=>{alert('請手動複製上方文字');});
+  navigator.clipboard.writeText(lines.join('\n')).then(()=>{
+    alert('已複製！貼到 LINE 傳給 Paul');
+  }).catch(()=>{alert('請手動複製');});
 }
+
 function resetDaily(){
   if(!confirm('確定要重置今日所有記錄嗎？'))return;
   daily={checked:{},qty:{},notes:{}};
   TASKS.forEach(id=>{const n=document.getElementById('note-'+id);if(n)n.value='';});
   saveDaily();renderDaily();
-  document.getElementById('report-txt').textContent='點下方按鈕產生今日進度報告...';
 }
+
+async function loadMonthData(){
+  const now=new Date();
+  const month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  document.getElementById('month-title-label').textContent=now.getFullYear()+'年 '+String(now.getMonth()+1).padStart(2,'0')+'月 全隊總覽';
+
+  if(SCRIPT_URL==='YOUR_APPS_SCRIPT_URL'){
+    document.getElementById('config-note').style.display='block';
+    return;
+  }
+  try{
+    const res=await fetch(SCRIPT_URL+'?month='+month);
+    const data=await res.json();
+    const s=data.summary||{};
+    document.getElementById('m-trial').textContent=s.trial||0;
+    document.getElementById('m-flyer').textContent=s.flyer||0;
+    document.getElementById('m-ig').textContent=s.ig_story||0;
+    document.getElementById('m-days').textContent=s.days_reported||0;
+
+    const members=['Paul','Lumie','海翔'];
+    const colors=['#F5C518','#5DCAA5','#7F77DD'];
+    const container=document.getElementById('team-cards');
+    container.innerHTML='';
+    members.forEach((m,i)=>{
+      const d=data[m]||{};
+      container.innerHTML+=`
+        <div class="team-card">
+          <div class="team-name">
+            <span style="width:10px;height:10px;border-radius:50%;background:${colors[i]};display:inline-block;"></span>
+            ${m}
+            <span class="team-badge" style="background:${colors[i]}22;color:${colors[i]}">回報 ${d.days_reported||0} 天</span>
+          </div>
+          <div class="team-grid">
+            <div class="team-stat"><div class="ts-val">${d.ig_story||0}</div><div class="ts-lbl">IG發文</div></div>
+            <div class="team-stat"><div class="ts-val">${d.flyer||0}</div><div class="ts-lbl">發券</div></div>
+            <div class="team-stat"><div class="ts-val">${d.trial||0}</div><div class="ts-lbl">體驗客</div></div>
+            <div class="team-stat"><div class="ts-val">${d.invite||0}</div><div class="ts-lbl">邀約</div></div>
+            <div class="team-stat"><div class="ts-val">${d.google_review||0}</div><div class="ts-lbl">Google評論</div></div>
+            <div class="team-stat"><div class="ts-val">${d.referral||0}</div><div class="ts-lbl">老帶新</div></div>
+          </div>
+        </div>`;
+    });
+
+    function upd(id,cur,goal){
+      const p=Math.min(100,Math.round(cur/goal*100));
+      document.getElementById('bar-'+id).style.width=p+'%';
+      document.getElementById('num-'+id).textContent=cur+' / '+goal+(id==='trial'?' 位':id==='ig'?' 篇':' 份');
+      document.getElementById('pct-'+id).textContent='達成率 '+p+'%';
+    }
+    upd('trial',s.trial||0,8);
+    upd('ig',s.ig_story||0,12);
+    upd('flyer',s.flyer||0,120);
+    upd('ref',s.referral||0,8);
+  }catch(e){
+    document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--red);font-size:12px;">載入失敗，請確認網路連線</div>';
+  }
+}
+
 document.querySelectorAll('.note-inp').forEach(el=>{
   el.addEventListener('focus',()=>el._focused=true);
   el.addEventListener('blur',()=>{el._focused=false;const id=el.id.replace('note-','');daily.notes[id]=el.value;saveDaily();});
 });
-loadAll();
-document.getElementById('cur-income').value=month.income;
-document.getElementById('cur-headcount').value=month.headcount;
-document.getElementById('cur-trial').value=month.trial;
-document.getElementById('cur-member').value=month.member;
-document.getElementById('cur-ig').value=month.ig;
-document.getElementById('cur-flyer-m').value=month.flyer;
-document.getElementById('cur-review').value=month.review;
-document.getElementById('cur-ref').value=month.ref;
-renderDaily();renderMonth();
+
+loadDaily();
+renderDaily();
 </script>
 </body>
 </html>
