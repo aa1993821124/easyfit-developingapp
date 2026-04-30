@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easyfit 工作看板</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --y:#F5C518;--yd:#C49A00;--yl:#FFF8D6;
+  --black:#111;--g1:#222;--g2:#2a2a2a;--g3:#555;--g4:#888;--g5:#bbb;--g6:#e4e4e0;
+  --bg:#f5f5f2;--white:#fff;
+  --green:#1a7a4a;--gl:#e6f5ed;
+  --red:#c0392b;--rl:#fdecea;
+  --blue:#1a5fa8;--bl:#e8f0fb;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--black);min-height:100vh;padding-bottom:64px;}
+.hd{background:var(--black);padding:0 1.25rem;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.hd-logo{display:flex;align-items:center;gap:9px;}
+.hd-mark{width:28px;height:28px;background:var(--y);border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--black);}
+.hd-text{font-size:14px;font-weight:700;color:var(--white);letter-spacing:.02em;}
+.hd-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--g4);background:var(--g1);padding:3px 9px;border-radius:4px;}
+.bot-nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:var(--black);display:flex;border-top:1px solid #222;z-index:200;}
+.bot-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:none;color:var(--g4);transition:color .15s;font-family:'Noto Sans TC',sans-serif;}
+.bot-tab.active{color:var(--y);}
+.bot-tab svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none;}
+.bot-tab span{font-size:10px;font-weight:500;}
+.page{display:none;max-width:540px;margin:0 auto;padding:1.1rem 1rem 1rem;}
+.page.active{display:block;}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:.09em;color:var(--g3);text-transform:uppercase;margin:1.3rem 0 .55rem;}
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem;}
+.stat-box{background:var(--white);border:1px solid var(--g6);border-radius:10px;padding:10px 8px 8px;text-align:center;}
+.stat-num{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:var(--black);line-height:1;}
+.stat-lbl{font-size:10px;color:var(--g3);margin-top:3px;line-height:1.3;}
+.stat-pill{display:inline-block;font-size:10px;padding:1px 7px;border-radius:3px;margin-top:5px;}
+.pill-now{background:var(--yl);color:var(--yd);}
+.pill-need{background:var(--rl);color:var(--red);}
+.pill-goal{background:var(--gl);color:var(--green);}
+.prog{background:var(--white);border:1px solid var(--g6);border-radius:12px;padding:1rem 1.1rem .85rem;margin-bottom:1rem;}
+.prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem;}
+.prog-title{font-size:12px;font-weight:500;color:var(--g3);}
+.prog-nums{font-family:'DM Mono',monospace;font-size:12px;color:var(--g3);}
+.prog-track{height:7px;background:var(--g6);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--y);border-radius:99px;transition:width .4s ease;}
+.prog-sub{font-size:11px;color:var(--g5);margin-top:5px;}
+.task{background:var(--white);border:1px solid var(--g6);border-radius:11px;margin-bottom:7px;overflow:hidden;transition:box-shadow .15s;}
+.task:hover{box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.task-row{display:flex;align-items:stretch;}
+.chk-col{width:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.chk{width:20px;height:20px;border:2px solid var(--g6);border-radius:5px;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--white);}
+.task.done .chk{background:var(--y);border-color:var(--yd);}
+.chk-ic{display:none;}
+.task.done .chk-ic{display:block;}
+.chk-svg{width:11px;height:11px;stroke:var(--black);stroke-width:2.5;fill:none;}
+.task-body{flex:1;padding:10px 12px 10px 0;border-left:1px solid var(--g6);}
+.task-title{font-size:13px;font-weight:500;color:var(--black);line-height:1.4;}
+.task.done .task-title{text-decoration:line-through;color:var(--g5);}
+.task-meta{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;}
+.tgt{font-size:10px;font-family:'DM Mono',monospace;background:var(--yl);color:var(--yd);padding:1px 7px;border-radius:3px;}
+.tag{font-size:10px;padding:1px 7px;border-radius:3px;}
+.tag-ig{background:#f0e5fb;color:#6b21a8;}
+.tag-fb{background:#e5ebfb;color:#1a3fa8;}
+.tag-g{background:var(--bl);color:var(--blue);}
+.task-hint{font-size:10px;color:var(--g5);margin-top:3px;}
+.qty-col{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 11px;flex-shrink:0;border-left:1px solid var(--g6);}
+.qbtn{width:24px;height:24px;border:1px solid var(--g6);border-radius:5px;background:var(--bg);font-size:15px;color:var(--g2);cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .1s;}
+.qbtn:hover{background:var(--yl);}
+.qval{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;min-width:20px;text-align:center;}
+.note-row{border-top:1px solid var(--g6);padding:6px 12px 6px 48px;}
+.note-inp{width:100%;font-family:'Noto Sans TC',sans-serif;font-size:11px;color:var(--g3);border:none;outline:none;background:transparent;resize:none;line-height:1.5;}
+.note-inp::placeholder{color:#ccc;}
+.report-box{background:var(--black);border-radius:13px;padding:1.1rem;margin-top:1.5rem;}
+.report-hd{font-size:13px;font-weight:700;color:var(--y);margin-bottom:.85rem;}
+.report-txt{background:#1c1c1c;border-radius:8px;padding:.9rem;font-family:'DM Mono',monospace;font-size:11px;color:#ddd;line-height:1.8;white-space:pre-wrap;word-break:break-all;margin-bottom:.9rem;min-height:100px;}
+.copy-btn{width:100%;padding:12px;background:var(--y);color:var(--black);border:none;border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s,transform .1s;letter-spacing:.02em;}
+.copy-btn:hover{background:#e6b800;}
+.copy-btn:active{transform:scale(.98);}
+.copy-btn.copied{background:var(--green);color:white;}
+.reset-btn{display:block;width:100%;text-align:center;font-size:12px;color:var(--g5);background:none;border:none;cursor:pointer;margin-top:.85rem;padding:8px;font-family:'Noto Sans TC',sans-serif;}
+.reset-btn:hover{color:var(--red);}
+.month-hero{background:var(--black);border-radius:13px;padding:1.1rem 1.25rem;margin-bottom:1rem;color:var(--white);}
+.month-hero-title{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--g4);text-transform:uppercase;margin-bottom:.6rem;}
+.month-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.month-kpi{background:var(--g2);border-radius:8px;padding:10px 12px;}
+.kpi-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--y);line-height:1;}
+.kpi-lbl{font-size:10px;color:var(--g4);margin-top:3px;}
+.target-card{background:var(--white);border:1px solid var(--g6);border-radius:11px;padding:1rem 1.1rem;margin-bottom:8px;}
+.tc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;}
+.tc-name{font-size:13px;font-weight:500;}
+.tc-badge{font-size:10px;padding:2px 9px;border-radius:3px;}
+.badge-biz{background:var(--yl);color:var(--yd);}
+.badge-mkt{background:var(--bl);color:var(--blue);}
+.tc-progress{height:6px;background:var(--g6);border-radius:99px;overflow:hidden;margin-bottom:.6rem;}
+.tc-fill{height:100%;border-radius:99px;transition:width .4s;}
+.fill-y{background:var(--y);}
+.fill-g{background:var(--green);}
+.fill-b{background:var(--blue);}
+.tc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.tc-label{font-size:11px;color:var(--g3);}
+.tc-input-wrap{display:flex;align-items:center;gap:6px;}
+.tc-sep{font-size:11px;color:var(--g5);}
+.tc-goal{font-family:'DM Mono',monospace;font-size:12px;color:var(--g4);}
+.num-input{width:56px;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;border:1px solid var(--g6);border-radius:5px;padding:3px 6px;text-align:center;background:var(--bg);color:var(--black);outline:none;}
+.num-input:focus{border-color:var(--yd);background:var(--yl);}
+.tc-pct{font-size:10px;color:var(--g4);}
+.save-btn{width:100%;padding:11px;background:var(--y);color:var(--black);border:none;border-radius:8px;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:1rem;transition:background .15s;}
+.save-btn:hover{background:#e6b800;}
+.save-btn.saved{background:var(--green);color:white;}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="hd-logo">
+    <div class="hd-mark">EF</div>
+    <div class="hd-text">Easyfit 工作看板</div>
+  </div>
+  <div class="hd-date" id="hd-date"></div>
+</div>
+
+<!-- PAGE: 每日 -->
+<div class="page active" id="page-daily">
+  <div class="stat-strip">
+    <div class="stat-box"><div class="stat-num">24</div><div class="stat-lbl">目前週人次</div><div class="stat-pill pill-now">現況</div></div>
+    <div class="stat-box"><div class="stat-num">34</div><div class="stat-lbl">損平週人次</div><div class="stat-pill pill-need">需達成</div></div>
+    <div class="stat-box"><div class="stat-num">2位</div><div class="stat-lbl">本週體驗客目標</div><div class="stat-pill pill-goal">每週</div></div>
+  </div>
+  <div class="prog">
+    <div class="prog-top"><div class="prog-title">今日完成度</div><div class="prog-nums"><span id="done-n">0</span> / <span id="total-n">6</span> 項</div></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
+    <div class="prog-sub" id="prog-sub">開始打勾完成今日任務</div>
+  </div>
+
+  <div class="sec-label">每日必做</div>
+
+  <div class="task" data-id="ig_story">
+    <div class="task-row">
+      <div class="chk-col" onclick="toggleCheck('ig_story')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
+      <div class="task-body">
+        <div class="task-title">IG / FB 限時動態或貼文</div>
+        <div class="task-meta"><span class="tgt">目標：1 則</span><span class="tag tag-ig">IG</span><span class="tag tag-fb">FB</span></div>
+      </div>
+      <div class="qty-col">
+        <button class="qbtn" onclick="changeQty('ig_story',1)">+</button>
+        <div class="qval" id="qty-ig_story">0</div>
+        <button class="qbtn" onclick="changeQty('ig_story',-1)">−</button>
+      </div>
+    </div>
+    <div class="note-row"><textarea class="note-inp" id="note-ig_story" placeholder="備註（發了什麼內容？）" rows="1" oninput="autoResize(this)"></textarea></div>
+  </div>
+
+  <div class="task" data-id="invite">
+    <div class="task-row">
+      <div class="chk-col" onclick="toggleCheck('invite')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
+      <div class="task-body">
+        <div class="task-title">主動邀約或回覆私訊 1 人</div>
+        <div class="task-meta"><span class="tgt">目標：1 次</span></div>
+      </div>
+      <div class="qty-col">
+        <button class="qbtn" onclick="changeQty('invite',1)">+</button>
+        <div class="qval" id="qty-invite">0</div>
+        <button class="qbtn" onclick="changeQty('invite',-1)">−</button>
+      </div>
+    </div>
+    <div class="note-row"><textarea class="note-inp" id="note-invite" placeholder="備註（邀了誰？結果如何？）" rows="1" oninput="autoResize(this)"></textarea></div>
+  </div>
+
+  <div class="task" data-id="google_review">
+    <div class="task-row">
+      <div class="chk-col" onclick="toggleCheck('google_review')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
+      <div class="task-body">
+        <div class="task-title">請 1 位學員留 Google 評論</div>
+        <div class="task-meta"><span class="tgt">目標：1 人</span><span class="tag tag-g">Google</span></div>
+      </div>
+      <div class="qty-col">
+        <button class="qbtn" onclick="changeQty('google_review',1)">+</button>
+        <div class="qval" id="qty-google_review">0</div>
+        <button class="qbtn" onclick="changeQty('google_review',-1)">−</button>
+      </div>
+    </div>
+    <div class="note-row"><textarea class="note-inp" id="note-google_review" placeholder="備註（請了誰？留成功了嗎？）" rows="1" oninput="autoResize(this)"></textarea></div>
+  </div>
+
+  <div class="sec-label">路上邀課</div>
+
+  <div class="task" data-id="flyer">
+    <div class="task-row">
+      <div class="chk-col" onclick="toggleCheck('flyer')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
+      <div class="task-body">
+        <div class="task-title">路上發體驗券／邀課</div>
+        <div class="task-meta"><span class="tgt">目標：3 份／天</span></div>
+        <div class="task-hint">15 份問卷約 1 位體驗 → 每週需發 30 份達到 2 位體驗目標</div>
+      </div>
+      <div class="qty-col">
+        <button class="qbtn" onclick="changeQty('flyer',1)">+</button>
+        <div class="qval" id="qty-flyer">0</div>
+        <button class="qbtn" onclick="changeQty('flyer',-1)">−</button>
+      </div>
+    </div>
+    <div class="note-row"><textarea class="note-inp" id="note-flyer" placeholder="備註（在哪裡發？有沒有人加LINE？）" rows="1" oninput="autoResize(this)"></textarea></div>
+  </div>
+
+  <div class="task" data-id="trial">
+    <div class="task-row">
+      <div class="chk-col" onclick="toggleCheck('trial')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
+      <div class="task-body">
+        <div class="task-title">今日新體驗客到場</div>
+        <div class="task-meta"><span class="tgt">每週累計 2 位</span></div>
+      </div>
+      <div class="qty-col">
+        <button class="qbtn" onclick="changeQty('trial',1)">+</button>
+        <div class="qval" id="qty-trial">0</div>
+        <button class="qbtn" onclick="changeQty('trial',-1)">−</button>
+      </div>
+    </div>
+    <div class="note-row"><textarea class="note-inp" id="note-trial" placeholder="備註（體驗後有沒有購課？）" rows="1" oninput="autoResize(this)"></textarea></div>
+  </div>
+
+  <div class="sec-label">老帶新（每週跟進）</div>
+
+  <div class="task" data-id="referral">
+    <div class="task-row">
+      <div class="chk-col" onclick="toggleCheck('referral')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
+      <div class="task-body" style="padding-right:12px;">
+        <div class="task-title">提醒學員老帶新回饋方案</div>
+        <div class="task-meta"><span class="tgt">每週跟進 2 位學員</span></div>
+      </div>
+    </div>
+    <div class="note-row"><textarea class="note-inp" id="note-referral" placeholder="備註（跟進了誰？有沒有朋友要來？）" rows="1" oninput="autoResize(this)"></textarea></div>
+  </div>
+
+  <div class="report-box">
+    <div class="report-hd">一鍵產生回報訊息</div>
+    <div class="report-txt" id="report-txt">點下方按鈕產生今日進度報告...</div>
+    <button class="copy-btn" id="copy-btn" onclick="generateAndCopy()">產生報告並複製 →</button>
+  </div>
+  <button class="reset-btn" onclick="resetDaily()">重置今日記錄</button>
+</div>
+
+<!-- PAGE: 月目標 -->
+<div class="page" id="page-month">
+  <div class="month-hero">
+    <div class="month-hero-title" id="month-title-label">本月業績目標</div>
+    <div class="month-grid">
+      <div class="month-kpi"><div class="kpi-val" id="m-income-pct">0%</div><div class="kpi-lbl">收入目標達成率</div></div>
+      <div class="month-kpi"><div class="kpi-val" id="m-task-pct">0%</div><div class="kpi-lbl">行銷任務完成率</div></div>
+      <div class="month-kpi"><div class="kpi-val" id="m-trial-cur">0</div><div class="kpi-lbl">本月體驗客 / 目標 8 位</div></div>
+      <div class="month-kpi"><div class="kpi-val" id="m-member-cur">0</div><div class="kpi-lbl">本月新成交學員</div></div>
+    </div>
+  </div>
+
+  <div class="sec-label">業績數字</div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">課程收入</div><div class="tc-badge badge-biz">業績</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-y" id="bar-income" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">本月實際收入（元）</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-income" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">$53,720</div></div>
+    </div>
+    <div class="tc-pct" id="pct-income">損益平衡目標：$53,720</div>
+  </div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">週人次</div><div class="tc-badge badge-biz">業績</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-y" id="bar-headcount" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">本週實際人次</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-headcount" value="24" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">34 人次</div></div>
+    </div>
+    <div class="tc-pct" id="pct-headcount">損平需達到 34 人次／週</div>
+  </div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">新體驗客</div><div class="tc-badge badge-biz">業績</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-g" id="bar-trial" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">本月體驗客到場</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-trial" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">8 位</div></div>
+    </div>
+    <div class="tc-pct" id="pct-trial">每週 2 位，轉換率 90%</div>
+  </div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">新成交學員</div><div class="tc-badge badge-biz">業績</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-g" id="bar-member" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">本月新購課學員</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-member" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">7 位</div></div>
+    </div>
+    <div class="tc-pct" id="pct-member">8 位體驗 × 90% 轉換率</div>
+  </div>
+
+  <div class="sec-label">行銷任務完成率</div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">IG/FB 發文</div><div class="tc-badge badge-mkt">行銷</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-b" id="bar-ig" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">本月已發貼文數</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-ig" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">12 篇</div></div>
+    </div>
+    <div class="tc-pct" id="pct-ig">每週 3 篇 × 4 週</div>
+  </div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">路上發體驗券</div><div class="tc-badge badge-mkt">行銷</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-b" id="bar-flyer" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">本月已發份數</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-flyer-m" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">120 份</div></div>
+    </div>
+    <div class="tc-pct" id="pct-flyer">每週 30 份 × 4 週，約帶進 8 位體驗</div>
+  </div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">Google 評論累計</div><div class="tc-badge badge-mkt">行銷</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-b" id="bar-review" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">目前評論則數</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-review" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">20 則</div></div>
+    </div>
+    <div class="tc-pct" id="pct-review">目標先達到 20 則，維持 4.7 星</div>
+  </div>
+
+  <div class="target-card">
+    <div class="tc-header"><div class="tc-name">老帶新跟進</div><div class="tc-badge badge-mkt">行銷</div></div>
+    <div class="tc-progress"><div class="tc-fill fill-b" id="bar-ref" style="width:0%"></div></div>
+    <div class="tc-row">
+      <div class="tc-label">本月跟進次數</div>
+      <div class="tc-input-wrap"><input class="num-input" type="number" id="cur-ref" value="0" min="0" oninput="saveMonth();renderMonth()"><span class="tc-sep">/</span><div class="tc-goal">8 次</div></div>
+    </div>
+    <div class="tc-pct" id="pct-ref">每週 2 位學員 × 4 週</div>
+  </div>
+
+  <button class="save-btn" id="save-btn" onclick="saveMonthConfirm()">儲存本月進度</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bot-nav">
+  <button class="bot-tab active" id="tab-daily" onclick="switchTab('daily')">
+    <svg viewBox="0 0 18 18"><rect x="2" y="2" width="14" height="14" rx="2"/><line x1="6" y1="6" x2="12" y2="6"/><line x1="6" y1="9" x2="12" y2="9"/><line x1="6" y1="12" x2="10" y2="12"/></svg>
+    <span>每日清單</span>
+  </button>
+  <button class="bot-tab" id="tab-month" onclick="switchTab('month')">
+    <svg viewBox="0 0 18 18"><rect x="2" y="3" width="14" height="12" rx="2"/><line x1="6" y1="1" x2="6" y2="5"/><line x1="12" y1="1" x2="12" y2="5"/><line x1="2" y1="7" x2="16" y2="7"/></svg>
+    <span>月目標</span>
+  </button>
+</nav>
+
+<script>
+const TASKS=['ig_story','invite','google_review','flyer','trial','referral'];
+const TASK_NAMES={ig_story:'IG/FB 限時動態',invite:'主動邀約',google_review:'Google 評論請求',flyer:'路上發體驗券',trial:'新體驗客到場',referral:'老帶新跟進'};
+const TASK_TARGETS={ig_story:1,invite:1,google_review:1,flyer:3,trial:0,referral:0};
+const TODAY=new Date().toISOString().slice(0,10);
+const MONTH_KEY='ef_month_'+new Date().toISOString().slice(0,7);
+const DAILY_KEY='ef_daily_'+TODAY;
+let daily={checked:{},qty:{},notes:{}};
+let month={income:0,headcount:24,trial:0,member:0,ig:0,flyer:0,review:0,ref:0};
+
+function loadAll(){
+  try{const s=localStorage.getItem(DAILY_KEY);if(s)daily=JSON.parse(s);}catch{}
+  try{const s=localStorage.getItem(MONTH_KEY);if(s)month=Object.assign(month,JSON.parse(s));}catch{}
+}
+function saveDaily(){try{localStorage.setItem(DAILY_KEY,JSON.stringify(daily));}catch{}}
+function saveMonth(){
+  month.income=+document.getElementById('cur-income').value||0;
+  month.headcount=+document.getElementById('cur-headcount').value||0;
+  month.trial=+document.getElementById('cur-trial').value||0;
+  month.member=+document.getElementById('cur-member').value||0;
+  month.ig=+document.getElementById('cur-ig').value||0;
+  month.flyer=+document.getElementById('cur-flyer-m').value||0;
+  month.review=+document.getElementById('cur-review').value||0;
+  month.ref=+document.getElementById('cur-ref').value||0;
+  try{localStorage.setItem(MONTH_KEY,JSON.stringify(month));}catch{}
+}
+function switchTab(tab){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bot-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  window.scrollTo(0,0);
+}
+function toggleCheck(id){daily.checked[id]=!daily.checked[id];saveDaily();renderDaily();}
+function changeQty(id,delta){
+  daily.qty[id]=Math.max(0,(daily.qty[id]||0)+delta);
+  if(daily.qty[id]>=(TASK_TARGETS[id]||1)&&TASK_TARGETS[id]>0)daily.checked[id]=true;
+  saveDaily();renderDaily();
+}
+function autoResize(el){
+  el.style.height='auto';el.style.height=el.scrollHeight+'px';
+  const id=el.id.replace('note-','');daily.notes[id]=el.value;saveDaily();
+}
+function renderDaily(){
+  const now=new Date();
+  const days=['日','一','二','三','四','五','六'];
+  document.getElementById('hd-date').textContent=now.getFullYear()+'/'+String(now.getMonth()+1).padStart(2,'0')+'/'+String(now.getDate()).padStart(2,'0')+' 週'+days[now.getDay()];
+  let done=0;
+  TASKS.forEach(id=>{
+    const card=document.querySelector('[data-id="'+id+'"]');if(!card)return;
+    const checked=!!daily.checked[id];if(checked)done++;
+    card.classList.toggle('done',checked);
+    const qEl=document.getElementById('qty-'+id);if(qEl)qEl.textContent=daily.qty[id]||0;
+    const nEl=document.getElementById('note-'+id);if(nEl&&!nEl._focused)nEl.value=daily.notes[id]||'';
+  });
+  const pct=Math.round(done/TASKS.length*100);
+  document.getElementById('done-n').textContent=done;
+  document.getElementById('total-n').textContent=TASKS.length;
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-sub').textContent=pct===100?'完美！今日任務全部完成':pct>=50?'過半了，繼續加油！':'加油，一步一步完成';
+}
+function pBar(id,cur,goal){
+  const p=goal?Math.min(100,Math.round(cur/goal*100)):0;
+  document.getElementById('bar-'+id).style.width=p+'%';return p;
+}
+function renderMonth(){
+  const now=new Date();
+  document.getElementById('month-title-label').textContent=now.getFullYear()+'年 '+String(now.getMonth()+1).padStart(2,'0')+'月 業績目標';
+  const income=+document.getElementById('cur-income').value||0;
+  const headcount=+document.getElementById('cur-headcount').value||0;
+  const trial=+document.getElementById('cur-trial').value||0;
+  const member=+document.getElementById('cur-member').value||0;
+  const ig=+document.getElementById('cur-ig').value||0;
+  const flyer=+document.getElementById('cur-flyer-m').value||0;
+  const review=+document.getElementById('cur-review').value||0;
+  const ref=+document.getElementById('cur-ref').value||0;
+  const ip=pBar('income',income,53720);
+  const hp=pBar('headcount',headcount,34);
+  const tp=pBar('trial',trial,8);
+  const mp=pBar('member',member,7);
+  const igp=pBar('ig',ig,12);
+  const fp=pBar('flyer',flyer,120);
+  const rp=pBar('review',review,20);
+  const rfp=pBar('ref',ref,8);
+  document.getElementById('pct-income').textContent='達成率 '+ip+'%，損益平衡目標 $53,720';
+  document.getElementById('pct-headcount').textContent='達成率 '+hp+'%，損平需達到 34 人次／週';
+  document.getElementById('pct-trial').textContent='達成率 '+tp+'%，每週 2 位，轉換率 90%';
+  document.getElementById('pct-member').textContent='達成率 '+mp+'%，8 位體驗 × 90% 轉換率';
+  document.getElementById('pct-ig').textContent='達成率 '+igp+'%，每週 3 篇 × 4 週';
+  document.getElementById('pct-flyer').textContent='達成率 '+fp+'%，每週 30 份 × 4 週';
+  document.getElementById('pct-review').textContent='達成率 '+rp+'%，目標先達到 20 則';
+  document.getElementById('pct-ref').textContent='達成率 '+rfp+'%，每週 2 位學員 × 4 週';
+  document.getElementById('m-income-pct').textContent=ip+'%';
+  document.getElementById('m-task-pct').textContent=Math.round((igp+fp+rp+rfp)/4)+'%';
+  document.getElementById('m-trial-cur').textContent=trial;
+  document.getElementById('m-member-cur').textContent=member;
+}
+function saveMonthConfirm(){
+  saveMonth();
+  const btn=document.getElementById('save-btn');
+  btn.textContent='已儲存 ✓';btn.classList.add('saved');
+  setTimeout(()=>{btn.textContent='儲存本月進度';btn.classList.remove('saved');},2000);
+}
+function generateAndCopy(){
+  const now=new Date();
+  const days=['日','一','二','三','四','五','六'];
+  const ds=now.getFullYear()+'/'+String(now.getMonth()+1).padStart(2,'0')+'/'+String(now.getDate()).padStart(2,'0')+' (週'+days[now.getDay()]+')';
+  let done=0;TASKS.forEach(id=>{if(daily.checked[id])done++;});
+  const pct=Math.round(done/TASKS.length*100);
+  const lines=['📋 Easyfit 每日工作進度回報','日期：'+ds,'完成度：'+done+'/'+TASKS.length+' 項（'+pct+'%）','','━━━ 今日數字 ━━━',
+    'IG/FB 貼文：'+(daily.qty['ig_story']||0)+' 則'+(daily.checked['ig_story']?' ✅':' ⬜'),
+    '主動邀約：'+(daily.qty['invite']||0)+' 次'+(daily.checked['invite']?' ✅':' ⬜'),
+    'Google 評論請求：'+(daily.qty['google_review']||0)+' 人'+(daily.checked['google_review']?' ✅':' ⬜'),
+    '路上發體驗券：'+(daily.qty['flyer']||0)+' 份（目標 3 份）'+(daily.checked['flyer']?' ✅':' ⬜'),
+    '新體驗客到場：'+(daily.qty['trial']||0)+' 位'+(daily.checked['trial']?' ✅':' ⬜'),
+    '老帶新跟進：'+(daily.checked['referral']?'完成 ✅':'未完成 ⬜'),''];
+  const hasN=TASKS.some(id=>daily.notes[id]&&daily.notes[id].trim());
+  if(hasN){lines.push('━━━ 備註 ━━━');TASKS.forEach(id=>{if(daily.notes[id]&&daily.notes[id].trim())lines.push(TASK_NAMES[id]+'：'+daily.notes[id].trim());});lines.push('');}
+  lines.push('──────────────');
+  const t=daily.qty['trial']||0;
+  lines.push(t>0?'今日新客 '+t+' 位，本週持續衝！':done===TASKS.length?'今日任務全部完成！':'明天繼續加油！');
+  const report=lines.join('\n');
+  document.getElementById('report-txt').textContent=report;
+  navigator.clipboard.writeText(report).then(()=>{
+    const btn=document.getElementById('copy-btn');
+    btn.textContent='已複製！貼到 LINE 傳給 Paul ✓';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='產生報告並複製 →';btn.classList.remove('copied');},3000);
+  }).catch(()=>{alert('請手動複製上方文字');});
+}
+function resetDaily(){
+  if(!confirm('確定要重置今日所有記錄嗎？'))return;
+  daily={checked:{},qty:{},notes:{}};
+  TASKS.forEach(id=>{const n=document.getElementById('note-'+id);if(n)n.value='';});
+  saveDaily();renderDaily();
+  document.getElementById('report-txt').textContent='點下方按鈕產生今日進度報告...';
+}
+document.querySelectorAll('.note-inp').forEach(el=>{
+  el.addEventListener('focus',()=>el._focused=true);
+  el.addEventListener('blur',()=>{el._focused=false;const id=el.id.replace('note-','');daily.notes[id]=el.value;saveDaily();});
+});
+loadAll();
+document.getElementById('cur-income').value=month.income;
+document.getElementById('cur-headcount').value=month.headcount;
+document.getElementById('cur-trial').value=month.trial;
+document.getElementById('cur-member').value=month.member;
+document.getElementById('cur-ig').value=month.ig;
+document.getElementById('cur-flyer-m').value=month.flyer;
+document.getElementById('cur-review').value=month.review;
+document.getElementById('cur-ref').value=month.ref;
+renderDaily();renderMonth();
+</script>
+</body>
+</html>
