@@ -331,13 +331,14 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
 
 <script>
 // ══ 設定區：部署 Apps Script 後填入網址 ══
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH0ROII47uNZRyfHYPc5Z_AdqmVofk3tfYUeNi0yt5uua6SkSo0HrPvCXqlsViOSaC/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQLN9mNYmjMUCoYTo7EnTvXxVYv7ZzITCkQzKOjQcDG-zQkxjFuh_NPu4OyEOp5bJJ/exec';
 // ═══════════════════════════════════════
 
 const TASKS=['ig_story','invite','google_review','flyer','trial','referral'];
 const TASK_NAMES={ig_story:'IG/FB 限時動態',invite:'主動邀約',google_review:'Google 評論請求',flyer:'路上發體驗券',trial:'新體驗客到場',referral:'老帶新跟進'};
 const TASK_TARGETS={ig_story:1,invite:1,google_review:1,flyer:3,trial:0,referral:0};
-const TODAY=new Date().toISOString().slice(0,10);
+const _now=new Date();
+const TODAY=new Date(_now.getTime()+8*60*60*1000).toISOString().slice(0,10);
 const DAILY_KEY='ef_daily_'+TODAY;
 
 let daily={checked:{},qty:{},notes:{}};
@@ -521,27 +522,18 @@ function renderMonthData(data){
 function loadMonthData(){
   const now=new Date();
   const month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
-  document.getElementById('month-title-label').textContent=now.getFullYear()+'\u5E74 '+String(now.getMonth()+1).padStart(2,'0')+'\u6708 \u5168\u968A\u7E3D\u89BD';
+  document.getElementById('month-title-label').textContent=now.getFullYear()+'年 '+String(now.getMonth()+1).padStart(2,'0')+'月 全隊總覽';
   if(SCRIPT_URL==='YOUR_APPS_SCRIPT_URL'){
     document.getElementById('config-note').style.display='block';
     return;
   }
-  document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:2rem;color:var(--g5);font-size:13px;">\u8F09\u5165\u4E2D...</div>';
-  const cbName='efCb_'+Date.now();
-  window[cbName]=function(data){
-    renderMonthData(data);
-    delete window[cbName];
-    const old=document.getElementById('ef-jsonp');
-    if(old)old.remove();
-  };
-  const s=document.createElement('script');
-  s.id='ef-jsonp';
-  s.onerror=function(){
-    document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--red);font-size:12px;">\u8F09\u5165\u5931\u6557\uFF0C\u8ACB\u78BA\u8A8D Apps Script \u8A2D\u5B9A</div>';
-    delete window[cbName];
-  };
-  s.src=SCRIPT_URL+'?month='+month+'&callback='+cbName;
-  document.head.appendChild(s);
+  document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:2rem;color:var(--g5);font-size:13px;">載入中...</div>';
+  fetch(SCRIPT_URL+'?month='+month)
+    .then(r=>r.json())
+    .then(data=>renderMonthData(data))
+    .catch(()=>{
+      document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--red);font-size:12px;">載入失敗，請確認網路連線</div>';
+    });
 }
 
 document.querySelectorAll('.note-inp').forEach(el=>{
