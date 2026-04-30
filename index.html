@@ -407,6 +407,7 @@ async function submitToSheets(){
   }
   const btn=document.getElementById('submit-btn');
   btn.textContent='送出中...';btn.disabled=true;
+
   const payload={
     member:currentMember, date:TODAY,
     ig_story:daily.qty['ig_story']||0,
@@ -417,11 +418,43 @@ async function submitToSheets(){
     referral:!!daily.checked['referral'],
     notes:TASKS.map(id=>daily.notes[id]?TASK_NAMES[id]+'：'+daily.notes[id]:'').filter(Boolean).join('；')
   };
+
+  // 用隱藏表單送出，避開 CORS 限制
   try{
-    await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)});
-    btn.textContent='已送出 ✓';btn.classList.add('ok');
-    document.getElementById('submit-status').textContent='最後送出：'+new Date().toLocaleTimeString('zh-TW');
-    setTimeout(()=>{btn.textContent='送出到 Google Sheets →';btn.classList.remove('ok');btn.disabled=false;},3000);
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = 'hidden-iframe';
+    form.style.display = 'none';
+
+    // 把所有資料序列化成一個欄位
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+
+    // 建立隱藏 iframe 接收回應
+    let iframe = document.getElementById('hidden-iframe');
+    if(!iframe){
+      iframe = document.createElement('iframe');
+      iframe.name = 'hidden-iframe';
+      iframe.id = 'hidden-iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+
+    // 等待 2 秒後視為成功（iframe 方式無法取得回應內容）
+    setTimeout(()=>{
+      btn.textContent='已送出 ✓';btn.classList.add('ok');
+      document.getElementById('submit-status').textContent='最後送出：'+new Date().toLocaleTimeString('zh-TW');
+      setTimeout(()=>{btn.textContent='送出到 Google Sheets →';btn.classList.remove('ok');btn.disabled=false;},3000);
+    },2000);
+
   }catch(e){
     btn.textContent='送出失敗，請重試';btn.classList.add('err');
     setTimeout(()=>{btn.textContent='送出到 Google Sheets →';btn.classList.remove('err');btn.disabled=false;},3000);
@@ -459,61 +492,56 @@ function resetDaily(){
   saveDaily();renderDaily();
 }
 
-async function loadMonthData(){
+function renderMonthData(data){
+  const s=data.summary||{};
+  document.getElementById('m-trial').textContent=s.trial||0;
+  document.getElementById('m-flyer').textContent=s.flyer||0;
+  document.getElementById('m-ig').textContent=s.ig_story||0;
+  document.getElementById('m-days').textContent=s.days_reported||0;
+  const members=['Paul','Lumie','\u6D77\u7FD4'];
+  const colors=['#F5C518','#5DCAA5','#7F77DD'];
+  const container=document.getElementById('team-cards');
+  container.innerHTML='';
+  members.forEach((m,i)=>{
+    const d=data[m]||{};
+    container.innerHTML+=`<div class="team-card"><div class="team-name"><span style="width:10px;height:10px;border-radius:50%;background:${colors[i]};display:inline-block;"></span>${m}<span class="team-badge" style="background:${colors[i]}22;color:${colors[i]}">\u56DE\u5831 ${d.days_reported||0} \u5929</span></div><div class="team-grid"><div class="team-stat"><div class="ts-val">${d.ig_story||0}</div><div class="ts-lbl">IG\u767C\u6587</div></div><div class="team-stat"><div class="ts-val">${d.flyer||0}</div><div class="ts-lbl">\u767C\u5238</div></div><div class="team-stat"><div class="ts-val">${d.trial||0}</div><div class="ts-lbl">\u9AD4\u9A57\u5BA2</div></div><div class="team-stat"><div class="ts-val">${d.invite||0}</div><div class="ts-lbl">\u9080\u7D04</div></div><div class="team-stat"><div class="ts-val">${d.google_review||0}</div><div class="ts-lbl">Google\u8A55\u8AD6</div></div><div class="team-stat"><div class="ts-val">${d.referral||0}</div><div class="ts-lbl">\u8001\u5E36\u65B0</div></div></div></div>`;
+  });
+  function upd(id,cur,goal){
+    const p=Math.min(100,Math.round(cur/goal*100));
+    document.getElementById('bar-'+id).style.width=p+'%';
+    document.getElementById('num-'+id).textContent=cur+' / '+goal+(id==='trial'?' \u4F4D':id==='ig'?' \u7BC7':' \u4EFD');
+    document.getElementById('pct-'+id).textContent='\u9054\u6210\u7387 '+p+'%';
+  }
+  upd('trial',s.trial||0,8);
+  upd('ig',s.ig_story||0,12);
+  upd('flyer',s.flyer||0,120);
+  upd('ref',s.referral||0,8);
+}
+
+function loadMonthData(){
   const now=new Date();
   const month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
-  document.getElementById('month-title-label').textContent=now.getFullYear()+'年 '+String(now.getMonth()+1).padStart(2,'0')+'月 全隊總覽';
-
+  document.getElementById('month-title-label').textContent=now.getFullYear()+'\u5E74 '+String(now.getMonth()+1).padStart(2,'0')+'\u6708 \u5168\u968A\u7E3D\u89BD';
   if(SCRIPT_URL==='YOUR_APPS_SCRIPT_URL'){
     document.getElementById('config-note').style.display='block';
     return;
   }
-  try{
-    const res=await fetch(SCRIPT_URL+'?month='+month);
-    const data=await res.json();
-    const s=data.summary||{};
-    document.getElementById('m-trial').textContent=s.trial||0;
-    document.getElementById('m-flyer').textContent=s.flyer||0;
-    document.getElementById('m-ig').textContent=s.ig_story||0;
-    document.getElementById('m-days').textContent=s.days_reported||0;
-
-    const members=['Paul','Lumie','海翔'];
-    const colors=['#F5C518','#5DCAA5','#7F77DD'];
-    const container=document.getElementById('team-cards');
-    container.innerHTML='';
-    members.forEach((m,i)=>{
-      const d=data[m]||{};
-      container.innerHTML+=`
-        <div class="team-card">
-          <div class="team-name">
-            <span style="width:10px;height:10px;border-radius:50%;background:${colors[i]};display:inline-block;"></span>
-            ${m}
-            <span class="team-badge" style="background:${colors[i]}22;color:${colors[i]}">回報 ${d.days_reported||0} 天</span>
-          </div>
-          <div class="team-grid">
-            <div class="team-stat"><div class="ts-val">${d.ig_story||0}</div><div class="ts-lbl">IG發文</div></div>
-            <div class="team-stat"><div class="ts-val">${d.flyer||0}</div><div class="ts-lbl">發券</div></div>
-            <div class="team-stat"><div class="ts-val">${d.trial||0}</div><div class="ts-lbl">體驗客</div></div>
-            <div class="team-stat"><div class="ts-val">${d.invite||0}</div><div class="ts-lbl">邀約</div></div>
-            <div class="team-stat"><div class="ts-val">${d.google_review||0}</div><div class="ts-lbl">Google評論</div></div>
-            <div class="team-stat"><div class="ts-val">${d.referral||0}</div><div class="ts-lbl">老帶新</div></div>
-          </div>
-        </div>`;
-    });
-
-    function upd(id,cur,goal){
-      const p=Math.min(100,Math.round(cur/goal*100));
-      document.getElementById('bar-'+id).style.width=p+'%';
-      document.getElementById('num-'+id).textContent=cur+' / '+goal+(id==='trial'?' 位':id==='ig'?' 篇':' 份');
-      document.getElementById('pct-'+id).textContent='達成率 '+p+'%';
-    }
-    upd('trial',s.trial||0,8);
-    upd('ig',s.ig_story||0,12);
-    upd('flyer',s.flyer||0,120);
-    upd('ref',s.referral||0,8);
-  }catch(e){
-    document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--red);font-size:12px;">載入失敗，請確認網路連線</div>';
-  }
+  document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:2rem;color:var(--g5);font-size:13px;">\u8F09\u5165\u4E2D...</div>';
+  const cbName='efCb_'+Date.now();
+  window[cbName]=function(data){
+    renderMonthData(data);
+    delete window[cbName];
+    const old=document.getElementById('ef-jsonp');
+    if(old)old.remove();
+  };
+  const s=document.createElement('script');
+  s.id='ef-jsonp';
+  s.onerror=function(){
+    document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--red);font-size:12px;">\u8F09\u5165\u5931\u6557\uFF0C\u8ACB\u78BA\u8A8D Apps Script \u8A2D\u5B9A</div>';
+    delete window[cbName];
+  };
+  s.src=SCRIPT_URL+'?month='+month+'&callback='+cbName;
+  document.head.appendChild(s);
 }
 
 document.querySelectorAll('.note-inp').forEach(el=>{
