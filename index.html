@@ -123,7 +123,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
 </style>
 </head>
 <body>
-
+ 
 <div class="hd">
   <div class="hd-logo">
     <div class="hd-mark">EF</div>
@@ -131,7 +131,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
   </div>
   <div class="hd-date" id="hd-date"></div>
 </div>
-
+ 
 <!-- PAGE: 每日 -->
 <div class="page active" id="page-daily">
   <div class="member-select-card">
@@ -142,21 +142,21 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
       <button class="mbtn" onclick="selectMember('海翔')">海翔</button>
     </div>
   </div>
-
+ 
   <div class="stat-strip">
     <div class="stat-box"><div class="stat-num">24</div><div class="stat-lbl">目前週人次</div><div class="stat-pill pill-now">現況</div></div>
     <div class="stat-box"><div class="stat-num">34</div><div class="stat-lbl">損平週人次</div><div class="stat-pill pill-need">需達成</div></div>
     <div class="stat-box"><div class="stat-num">2位</div><div class="stat-lbl">本週體驗客目標</div><div class="stat-pill pill-goal">每週</div></div>
   </div>
-
+ 
   <div class="prog">
     <div class="prog-top"><div class="prog-title">今日完成度</div><div class="prog-nums"><span id="done-n">0</span> / <span id="total-n">6</span> 項</div></div>
     <div class="prog-track"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
     <div class="prog-sub" id="prog-sub">請先選擇你的名字，再開始打勾</div>
   </div>
-
+ 
   <div class="sec-label">每日必做</div>
-
+ 
   <div class="task" data-id="ig_story">
     <div class="task-row">
       <div class="chk-col" onclick="toggleCheck('ig_story')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
@@ -172,7 +172,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     </div>
     <div class="note-row"><textarea class="note-inp" id="note-ig_story" placeholder="備註（發了什麼內容？）" rows="1" oninput="autoResize(this)"></textarea></div>
   </div>
-
+ 
   <div class="task" data-id="invite">
     <div class="task-row">
       <div class="chk-col" onclick="toggleCheck('invite')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
@@ -188,7 +188,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     </div>
     <div class="note-row"><textarea class="note-inp" id="note-invite" placeholder="備註（邀了誰？結果如何？）" rows="1" oninput="autoResize(this)"></textarea></div>
   </div>
-
+ 
   <div class="task" data-id="google_review">
     <div class="task-row">
       <div class="chk-col" onclick="toggleCheck('google_review')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
@@ -204,9 +204,9 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     </div>
     <div class="note-row"><textarea class="note-inp" id="note-google_review" placeholder="備註（請了誰？留成功了嗎？）" rows="1" oninput="autoResize(this)"></textarea></div>
   </div>
-
+ 
   <div class="sec-label">路上邀課</div>
-
+ 
   <div class="task" data-id="flyer">
     <div class="task-row">
       <div class="chk-col" onclick="toggleCheck('flyer')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
@@ -223,7 +223,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     </div>
     <div class="note-row"><textarea class="note-inp" id="note-flyer" placeholder="備註（在哪裡發？有沒有人加LINE？）" rows="1" oninput="autoResize(this)"></textarea></div>
   </div>
-
+ 
   <div class="task" data-id="trial">
     <div class="task-row">
       <div class="chk-col" onclick="toggleCheck('trial')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
@@ -239,9 +239,9 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     </div>
     <div class="note-row"><textarea class="note-inp" id="note-trial" placeholder="備註（體驗後有沒有購課？）" rows="1" oninput="autoResize(this)"></textarea></div>
   </div>
-
+ 
   <div class="sec-label">老帶新（每週跟進）</div>
-
+ 
   <div class="task" data-id="referral">
     <div class="task-row">
       <div class="chk-col" onclick="toggleCheck('referral')"><div class="chk"><div class="chk-ic"><svg class="chk-svg" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div></div></div>
@@ -252,7 +252,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     </div>
     <div class="note-row"><textarea class="note-inp" id="note-referral" placeholder="備註（跟進了誰？有沒有朋友要來？）" rows="1" oninput="autoResize(this)"></textarea></div>
   </div>
-
+ 
   <div class="submit-box">
     <div class="submit-hd">送出今日進度</div>
     <div class="submit-status" id="submit-status">尚未送出</div>
@@ -261,14 +261,23 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
   </div>
   <button class="reset-btn" onclick="resetDaily()">重置今日記錄</button>
 </div>
-
+ 
 <!-- PAGE: 月報表 -->
 <div class="page" id="page-month">
+  <div class="member-select-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div class="member-label" style="margin:0;white-space:nowrap;">查詢月份</div>
+    <div style="display:flex;align-items:center;gap:8px;flex:1;justify-content:flex-end;">
+      <button class="qbtn" style="width:28px;height:28px;font-size:16px;" onclick="shiftMonth(-1)">‹</button>
+      <div id="month-display" style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500;min-width:72px;text-align:center;"></div>
+      <button class="qbtn" id="btn-next-month" style="width:28px;height:28px;font-size:16px;" onclick="shiftMonth(1)">›</button>
+    </div>
+  </div>
+ 
   <div class="config-note" id="config-note" style="display:none">
     <strong>尚未連接 Google Sheets</strong><br>
     請將 Apps Script 部署後，把網址填入設定中，月報表才能顯示即時數據。
   </div>
-
+ 
   <div class="month-hero">
     <div class="month-hero-title" id="month-title-label">本月全隊總覽</div>
     <div class="month-grid">
@@ -278,45 +287,45 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
       <div class="month-kpi"><div class="kpi-val" id="m-days">0</div><div class="kpi-lbl">全隊總回報天數</div></div>
     </div>
   </div>
-
+ 
   <div class="sec-label">各夥伴本月數字</div>
   <div id="team-cards">
     <div style="text-align:center;padding:2rem;color:var(--g5);font-size:13px;">點下方「更新數據」載入最新資料</div>
   </div>
-
+ 
   <div class="sec-label">本月業績目標</div>
-
+ 
   <div class="target-card">
     <div class="tc-header"><div class="tc-name">新體驗客</div><div class="tc-badge badge-biz">業績</div></div>
     <div class="tc-progress"><div class="tc-fill fill-g" id="bar-trial" style="width:0%"></div></div>
     <div class="tc-row"><div class="tc-label">全隊本月體驗客</div><div class="tc-nums" id="num-trial">0 / 8 位</div></div>
     <div class="tc-pct" id="pct-trial">每週 2 位，轉換率 90%</div>
   </div>
-
+ 
   <div class="target-card">
     <div class="tc-header"><div class="tc-name">IG/FB 發文</div><div class="tc-badge badge-mkt">行銷</div></div>
     <div class="tc-progress"><div class="tc-fill fill-b" id="bar-ig" style="width:0%"></div></div>
     <div class="tc-row"><div class="tc-label">全隊本月發文數</div><div class="tc-nums" id="num-ig">0 / 12 篇</div></div>
     <div class="tc-pct" id="pct-ig">每人每週 3 篇（Paul 為主）</div>
   </div>
-
+ 
   <div class="target-card">
     <div class="tc-header"><div class="tc-name">路上發體驗券</div><div class="tc-badge badge-mkt">行銷</div></div>
     <div class="tc-progress"><div class="tc-fill fill-b" id="bar-flyer" style="width:0%"></div></div>
     <div class="tc-row"><div class="tc-label">全隊本月發券數</div><div class="tc-nums" id="num-flyer">0 / 120 份</div></div>
     <div class="tc-pct" id="pct-flyer">每週 30 份，15 份約帶 1 位體驗</div>
   </div>
-
+ 
   <div class="target-card">
     <div class="tc-header"><div class="tc-name">老帶新跟進</div><div class="tc-badge badge-mkt">行銷</div></div>
     <div class="tc-progress"><div class="tc-fill fill-b" id="bar-ref" style="width:0%"></div></div>
     <div class="tc-row"><div class="tc-label">全隊本月跟進次數</div><div class="tc-nums" id="num-ref">0 / 8 次</div></div>
     <div class="tc-pct" id="pct-ref">每週每人跟進 1 位</div>
   </div>
-
+ 
   <button class="refresh-btn" onclick="loadMonthData()">更新數據</button>
 </div>
-
+ 
 <!-- BOTTOM NAV -->
 <nav class="bot-nav">
   <button class="bot-tab active" id="tab-daily" onclick="switchTab('daily')">
@@ -328,29 +337,29 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--blac
     <span>月報表</span>
   </button>
 </nav>
-
+ 
 <script>
 // ══ 設定區：部署 Apps Script 後填入網址 ══
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQLN9mNYmjMUCoYTo7EnTvXxVYv7ZzITCkQzKOjQcDG-zQkxjFuh_NPu4OyEOp5bJJ/exec';
 // ═══════════════════════════════════════
-
+ 
 const TASKS=['ig_story','invite','google_review','flyer','trial','referral'];
 const TASK_NAMES={ig_story:'IG/FB 限時動態',invite:'主動邀約',google_review:'Google 評論請求',flyer:'路上發體驗券',trial:'新體驗客到場',referral:'老帶新跟進'};
 const TASK_TARGETS={ig_story:1,invite:1,google_review:1,flyer:3,trial:0,referral:0};
 const _now=new Date();
 const TODAY=new Date(_now.getTime()+8*60*60*1000).toISOString().slice(0,10);
 const DAILY_KEY='ef_daily_'+TODAY;
-
+ 
 let daily={checked:{},qty:{},notes:{}};
 let currentMember='';
-
+ 
 function loadDaily(){
   try{const s=localStorage.getItem(DAILY_KEY);if(s)daily=JSON.parse(s);}catch{}
   const saved=localStorage.getItem('ef_member');
   if(saved) selectMember(saved,false);
 }
 function saveDaily(){try{localStorage.setItem(DAILY_KEY,JSON.stringify(daily));}catch{}}
-
+ 
 function selectMember(name, save=true){
   currentMember=name;
   if(save) localStorage.setItem('ef_member',name);
@@ -359,7 +368,7 @@ function selectMember(name, save=true){
   });
   renderDaily();
 }
-
+ 
 function switchTab(tab){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.bot-tab').forEach(t=>t.classList.remove('active'));
@@ -367,7 +376,7 @@ function switchTab(tab){
   document.getElementById('tab-'+tab).classList.add('active');
   window.scrollTo(0,0);
 }
-
+ 
 function toggleCheck(id){daily.checked[id]=!daily.checked[id];saveDaily();renderDaily();}
 function changeQty(id,delta){
   daily.qty[id]=Math.max(0,(daily.qty[id]||0)+delta);
@@ -378,7 +387,7 @@ function autoResize(el){
   el.style.height='auto';el.style.height=el.scrollHeight+'px';
   const id=el.id.replace('note-','');daily.notes[id]=el.value;saveDaily();
 }
-
+ 
 function renderDaily(){
   const now=new Date();
   const days=['日','一','二','三','四','五','六'];
@@ -399,7 +408,7 @@ function renderDaily(){
     !currentMember?'請先選擇你的名字，再開始打勾':
     pct===100?'完美！今日任務全部完成':pct>=50?'過半了，繼續加油！':'加油，一步一步完成';
 }
-
+ 
 async function submitToSheets(){
   if(!currentMember){alert('請先選擇你的名字！');return;}
   if(SCRIPT_URL==='YOUR_APPS_SCRIPT_URL'){
@@ -408,7 +417,7 @@ async function submitToSheets(){
   }
   const btn=document.getElementById('submit-btn');
   btn.textContent='送出中...';btn.disabled=true;
-
+ 
   const payload={
     member:currentMember, date:TODAY,
     ig_story:daily.qty['ig_story']||0,
@@ -419,7 +428,7 @@ async function submitToSheets(){
     referral:!!daily.checked['referral'],
     notes:TASKS.map(id=>daily.notes[id]?TASK_NAMES[id]+'：'+daily.notes[id]:'').filter(Boolean).join('；')
   };
-
+ 
   // 用隱藏表單送出，避開 CORS 限制
   try{
     const form = document.createElement('form');
@@ -427,14 +436,14 @@ async function submitToSheets(){
     form.action = SCRIPT_URL;
     form.target = 'hidden-iframe';
     form.style.display = 'none';
-
+ 
     // 把所有資料序列化成一個欄位
     const input = document.createElement('input');
     input.type = 'hidden';
     input.name = 'payload';
     input.value = JSON.stringify(payload);
     form.appendChild(input);
-
+ 
     // 建立隱藏 iframe 接收回應
     let iframe = document.getElementById('hidden-iframe');
     if(!iframe){
@@ -444,24 +453,24 @@ async function submitToSheets(){
       iframe.style.display = 'none';
       document.body.appendChild(iframe);
     }
-
+ 
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-
+ 
     // 等待 2 秒後視為成功（iframe 方式無法取得回應內容）
     setTimeout(()=>{
       btn.textContent='已送出 ✓';btn.classList.add('ok');
       document.getElementById('submit-status').textContent='最後送出：'+new Date().toLocaleTimeString('zh-TW');
       setTimeout(()=>{btn.textContent='送出到 Google Sheets →';btn.classList.remove('ok');btn.disabled=false;},3000);
     },2000);
-
+ 
   }catch(e){
     btn.textContent='送出失敗，請重試';btn.classList.add('err');
     setTimeout(()=>{btn.textContent='送出到 Google Sheets →';btn.classList.remove('err');btn.disabled=false;},3000);
   }
 }
-
+ 
 function copyReport(){
   if(!currentMember){alert('請先選擇你的名字！');return;}
   const now=new Date();
@@ -485,14 +494,14 @@ function copyReport(){
     alert('已複製！貼到 LINE 傳給 Paul');
   }).catch(()=>{alert('請手動複製');});
 }
-
+ 
 function resetDaily(){
   if(!confirm('確定要重置今日所有記錄嗎？'))return;
   daily={checked:{},qty:{},notes:{}};
   TASKS.forEach(id=>{const n=document.getElementById('note-'+id);if(n)n.value='';});
   saveDaily();renderDaily();
 }
-
+ 
 function renderMonthData(data){
   const s=data.summary||{};
   document.getElementById('m-trial').textContent=s.trial||0;
@@ -518,11 +527,36 @@ function renderMonthData(data){
   upd('flyer',s.flyer||0,120);
   upd('ref',s.referral||0,8);
 }
-
+ 
+// 月份選擇器
+const _initNow = new Date();
+let _selectedYear = _initNow.getFullYear();
+let _selectedMonth = _initNow.getMonth() + 1; // 1-12
+ 
+function _renderMonthSelector() {
+  document.getElementById('month-display').textContent =
+    _selectedYear + '/' + String(_selectedMonth).padStart(2, '0');
+  // 不能選未來的月份
+  const now = new Date();
+  const isCurrentOrFuture = (_selectedYear > now.getFullYear()) ||
+    (_selectedYear === now.getFullYear() && _selectedMonth >= now.getMonth() + 1);
+  document.getElementById('btn-next-month').disabled = isCurrentOrFuture;
+  document.getElementById('btn-next-month').style.opacity = isCurrentOrFuture ? '0.3' : '1';
+}
+ 
+function shiftMonth(delta) {
+  _selectedMonth += delta;
+  if (_selectedMonth > 12) { _selectedMonth = 1; _selectedYear++; }
+  if (_selectedMonth < 1)  { _selectedMonth = 12; _selectedYear--; }
+  _renderMonthSelector();
+  loadMonthData();
+}
+ 
 function loadMonthData(){
-  const now=new Date();
-  const month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
-  document.getElementById('month-title-label').textContent=now.getFullYear()+'年 '+String(now.getMonth()+1).padStart(2,'0')+'月 全隊總覽';
+  _renderMonthSelector();
+  const month = _selectedYear + '-' + String(_selectedMonth).padStart(2, '0');
+  document.getElementById('month-title-label').textContent =
+    _selectedYear + '年 ' + String(_selectedMonth).padStart(2,'0') + '月 全隊總覽';
   if(SCRIPT_URL==='YOUR_APPS_SCRIPT_URL'){
     document.getElementById('config-note').style.display='block';
     return;
@@ -535,12 +569,12 @@ function loadMonthData(){
       document.getElementById('team-cards').innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--red);font-size:12px;">載入失敗，請確認網路連線</div>';
     });
 }
-
+ 
 document.querySelectorAll('.note-inp').forEach(el=>{
   el.addEventListener('focus',()=>el._focused=true);
   el.addEventListener('blur',()=>{el._focused=false;const id=el.id.replace('note-','');daily.notes[id]=el.value;saveDaily();});
 });
-
+ 
 loadDaily();
 renderDaily();
 </script>
